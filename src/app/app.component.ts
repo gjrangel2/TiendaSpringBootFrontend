@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
     this.resetFormulario(); // Llama a la nueva función de reseteo
   }
 
-  // Nueva función para resetear el formulario y el estado
+  // Nueva función para resetear el formulario y el es
   resetFormulario(): void {
     this.clienteEnEdicion = { nombre: '', apellido: '', email: '' };
     this.clienteSeleccionado = null;
