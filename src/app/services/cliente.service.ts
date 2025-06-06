@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Importa HttpClient para hacer peticiones HTTP
 import { Observable } from 'rxjs'; // Importa Observable para manejar flujos de datos asíncronos
+import { environment } from 'src/environments/environment.prod';
 
 // Define la interfaz para Cliente, que coincide con tu modelo de Spring Boot
 export interface Cliente {
@@ -15,8 +16,7 @@ export interface Cliente {
 })
 export class ClienteService {
 
-  private apiUrl = 'http://localhost:8080/api/clientes'; // URL base de tu API de Clientes de Spring Boot
-
+  private apiUrl = environment.apiUrl +'/clientes'; 
   constructor(private http: HttpClient) { } // Inyecta HttpClient en el constructor
 
   // Método para obtener todos los clientes
