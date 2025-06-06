@@ -1,0 +1,38 @@
+<<div class="container">
+  <h1>{{ title }}</h1>
+
+  <div *ngIf="mensajeError" class="error-message">
+    {{ mensajeError }}
+  </div>
+
+  <hr>
+
+  <h2>{{ clienteEnEdicion.id ? 'Editar Cliente' : 'Crear Nuevo Cliente' }}</h2> <form (ngSubmit)="guardarCliente()"> <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" [(ngModel)]="clienteEnEdicion.nombre" name="nombre" required> </div>
+    <div class="form-group">
+      <label for="apellido">Apellido:</label>
+      <input type="text" id="apellido" [(ngModel)]="clienteEnEdicion.apellido" name="apellido" required> </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="clienteEnEdicion.email" name="email" required> </div>
+    <button type="submit" [disabled]="!(clienteEnEdicion.nombre && clienteEnEdicion.apellido && clienteEnEdicion.email)">
+      {{ clienteEnEdicion.id ? 'Actualizar Cliente' : 'Crear Cliente' }} </button>
+    <button type="button" *ngIf="clienteEnEdicion.id" (click)="cancelarEdicion()">Cancelar</button> </form>
+
+  <hr>
+
+  <h2>Lista de Clientes</h2>
+  <div *ngIf="clientes.length === 0 && !mensajeError">
+    <p>No hay clientes registrados.</p>
+  </div>
+  <ul class="client-list">
+    <li *ngFor="let cliente of clientes">
+      <span>{{ cliente.nombre }} {{ cliente.apellido }} ({{ cliente.email }})</span>
+      <div>
+        <button class="edit-button" (click)="seleccionarClienteParaEditar(cliente)">Editar</button>
+        <button class="delete-button" (click)="eliminarCliente(cliente.id)">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+</div>
