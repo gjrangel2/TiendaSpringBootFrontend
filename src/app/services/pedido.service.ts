@@ -17,13 +17,13 @@ export interface Pedido {
 }
 
 // Interfaz para el payload que se envía al backend al crear/actualizar un pedido
-// Asume que el backend espera el ID del cliente y una lista de IDs de productos.
+// Asume que el backend espera el ID del clienthsdfe y una lista de IDs de productos.
 export interface PedidoPayload {
   id: number | null;
   fechaPedido: string;
   estado: string;
   clienteId: number; // Solo el ID del cliente
-  productoIds: number[]; // Solo los IDs de los productos
+  productosIds: number[]; // Solo los IDs de los productos
   total: number;
 }
 

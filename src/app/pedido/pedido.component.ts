@@ -20,8 +20,9 @@ export class PedidoComponent implements OnInit {
     fechaPedido: new Date().toISOString().slice(0, 16), // Formato YYYY-MM-DDTHH:mm
     estado: 'PENDIENTE',
     clienteId: 0, // ID del cliente seleccionado
-    productoIds: [], // IDs de los productos seleccionados
-    total: 0
+    productosIds: [], // IDs de los productos seleccionados
+    total: 0,
+ 
   };
   mensajeError: string | null = null;
   selectedProductsForForm: number[] = []; // IDs de productos seleccionados para el formulario (para el multi-select)
@@ -74,7 +75,7 @@ export class PedidoComponent implements OnInit {
   // Guarda un nuevo pedido o actualiza uno existente
   guardarPedido(): void {
     // Validaciones básicas
-    if (!this.pedidoForm.clienteId || this.pedidoForm.productoIds.length === 0 || !this.pedidoForm.estado) {
+    if (!this.pedidoForm.clienteId || this.pedidoForm.productosIds.length === 0 || !this.pedidoForm.estado) {
       this.mensajeError = 'Por favor, complete todos los campos obligatorios y seleccione al menos un producto.';
       return;
     }
@@ -118,7 +119,7 @@ export class PedidoComponent implements OnInit {
       fechaPedido: pedido.fechaPedido.slice(0, 16), // Asegura el formato correcto
       estado: pedido.estado,
       clienteId: pedido.cliente?.id || 0, // Asigna el ID del cliente
-      productoIds: pedido.productos.map(p => p.id), // Extrae los IDs de los productos
+      productosIds: pedido.productos.map(p => p.id), // Extrae los IDs de los productos
       total: pedido.total
     };
     this.selectedProductsForForm = pedido.productos.map(p => p.id); // Para el ngModelOptions
@@ -153,17 +154,17 @@ export class PedidoComponent implements OnInit {
       fechaPedido: new Date().toISOString().slice(0, 16),
       estado: 'PENDIENTE',
       clienteId: 0,
-      productoIds: [],
+      productosIds: [],
       total: 0
     };
     this.selectedProductsForForm = []; // Limpiar selección del multi-select
     this.mensajeError = null;
   }
 
-  // Calcula el total del pedido basado en los productos seleccionados
+  // Calcula el total del pedido basado en los productos seleccionados hsdffh
   calcularTotalPedido(): void {
     let calculatedTotal = 0;
-    for (const prodId of this.pedidoForm.productoIds) {
+    for (const prodId of this.pedidoForm.productosIds) {
       const producto = this.productosDisponibles.find(p => p.id === prodId);
       if (producto) {
         calculatedTotal += producto.precio;
