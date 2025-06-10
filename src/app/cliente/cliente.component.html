@@ -28,7 +28,7 @@
   </div>
   <ul class="client-list">
     <li *ngFor="let cliente of clientes">
-      <span>{{ cliente.nombre }} {{ cliente.apellido }} ({{ cliente.email }})</span>
+      <span>{{cliente.id}} - {{ cliente.nombre }} {{ cliente.apellido }} ({{ cliente.email }})</span>
       <div>
         <button class="edit-button" (click)="seleccionarClienteParaEditar(cliente)">Editar</button>
         <button class="delete-button" (click)="eliminarCliente(cliente.id)">Eliminar</button>
