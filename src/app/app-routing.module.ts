@@ -9,7 +9,7 @@ import { PedidoComponent } from './pedido/pedido.component';
 
 const routes: Routes = [
   // Redirige la ruta raíz ('/') a la interfaz de Clientes
-  { path: '', redirectTo: '/clientes', pathMatch: 'full' },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
   // Rutas para cada una de las interfaces de tu tienda
   { path: 'clientes', component: ClienteComponent }, // ¡Esta es la ruta crucial!
   { path: 'productos', component: ProductoComponent },

@@ -1,1 +1,41 @@
-<p>producto</p>
+<<div class="container">
+  <h1>{{ title }}</h1>
+
+  <div *ngIf="mensajeError" class="error-message">
+    {{ mensajeError }}
+  </div>
+
+  <hr>
+
+  <h2>{{ productoEnEdicion.id ? 'Editar Producto' : 'Crear Nuevo Producto' }}</h2> <form (ngSubmit)="guardarProducto()"> <div class="form-group">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" [(ngModel)]="productoEnEdicion.nombre" name="nombre" required> </div>
+    <div class="form-group">
+      <label for="Descripcion">Descripcion:</label>
+      <input type="text" id="Descripcion" [(ngModel)]="productoEnEdicion.descripcion" name="Descripcion" required> </div>
+    <div class="form-group">
+      <label for="precio">Precio:</label>
+      <input type="number" id="precio" [(ngModel)]="productoEnEdicion.precio" name="precio" required> </div>
+    <div class="form-group">
+      <label for="Stock">Stock:</label>
+      <input type="number" id="Stock" [(ngModel)]="productoEnEdicion.stock" name="Stock" required> </div>
+    <button type="submit" [disabled]="!(productoEnEdicion.nombre && productoEnEdicion.descripcion && productoEnEdicion.precio && productoEnEdicion.stock)">
+      {{ productoEnEdicion.id ? 'Actualizar Producto' : 'Crear Producto' }} </button>
+    <button type="button" *ngIf="productoEnEdicion.id" (click)="cancelarEdicion()">Cancelar</button> </form>
+
+  <hr>
+
+  <h2>Lista de Productos</h2>
+  <div *ngIf="productos.length === 0 && !mensajeError">
+    <p>No hay productos registrados.</p>
+  </div>
+  <ul class="Product-list">
+    <li *ngFor="let Producto of productos">
+      <span>{{Producto.nombre}} {{Producto.descripcion }} {{Producto.precio}}({{Producto.stock}})</span>
+      <div>
+        <button class="edit-button" (click)="seleccionarProductoParaEditar(Producto)">Editar</button>
+        <button class="delete-button" (click)="eliminarProducto(Producto.id)">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+</div>
