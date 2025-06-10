@@ -1,1 +1,154 @@
-<p>pedido</p>
+<!-- src/app/pedido/pedido.component.html -->
+
+<div class="p-6 bg-white rounded-lg shadow-xl mb-8">
+  <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Gestión de Pedidos</h2>
+
+  <!-- Mensajes de estado -->
+  <div *ngIf="mensajeError" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-6" role="alert">
+    <p class="font-bold">Error:</p>
+    <p>{{ mensajeError }}</p>
+  </div>
+  <div *ngIf="pedidos.length === 0 && !mensajeError" class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md mb-6" role="alert">
+    <p class="font-bold">Información:</p>
+    <p>No hay pedidos registrados.</p>
+  </div>
+
+  <!-- Formulario para agregar/editar pedidos -->
+  <div class="bg-gray-50 p-6 rounded-lg shadow-inner mb-8">
+    <h3 class="text-2xl font-semibold text-gray-700 mb-4 text-center">
+      {{ pedidoForm.id ? 'Editar Pedido' : 'Crear Nuevo Pedido' }}
+    </h3>
+    <form (ngSubmit)="guardarPedido()" class="space-y-4">
+      <!-- Campo Fecha Pedido -->
+      <div>
+        <label for="fechaPedido" class="block text-gray-700 text-sm font-bold mb-2">Fecha y Hora:</label>
+        <input type="datetime-local" id="fechaPedido" name="fechaPedido" [(ngModel)]="pedidoForm.fechaPedido"
+               class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+               required>
+      </div>
+
+      <!-- Campo Estado -->
+      <div>
+        <label for="estado" class="block text-gray-700 text-sm font-bold mb-2">Estado:</label>
+        <select id="estado" name="estado" [(ngModel)]="pedidoForm.estado"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required>
+          <option value="PENDIENTE">PENDIENTE</option>
+          <option value="ENVIADO">ENVIADO</option>
+          <option value="ENTREGADO">ENTREGADO</option>
+          <option value="CANCELADO">CANCELADO</option>
+        </select>
+      </div>
+
+      <!-- Campo Cliente -->
+      <div>
+        <label for="cliente" class="block text-gray-700 text-sm font-bold mb-2">Cliente:</label>
+        <select id="cliente" name="cliente" [(ngModel)]="pedidoForm.clienteId"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required>
+          <option [ngValue]="0" disabled>Seleccione un cliente</option> <!-- CAMBIO CLAVE AQUÍ: [ngValue] en lugar de [value] -->
+          <option *ngFor="let cliente of clientes" [ngValue]="cliente.id">{{ cliente.nombre }} {{ cliente.apellido }}</option>
+        </select>
+        <p *ngIf="clientes.length === 0" class="text-sm text-gray-500 mt-1">Cargando clientes...</p>
+      </div>
+
+      <!-- Campo Productos (Multi-select) -->
+      <div>
+        <label for="productos" class="block text-gray-700 text-sm font-bold mb-2">Productos:</label>
+        <select multiple id="productos" name="productos"
+                [(ngModel)]="pedidoForm.productosIds"
+                (change)="calcularTotalPedido()"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent h-40"
+                required>
+          <option *ngFor="let producto of productosDisponibles" [ngValue]="producto.id"> <!-- CAMBIO CLAVE AQUÍ: [ngValue] -->
+            {{ producto.nombre }} (${{ producto.precio | number:'1.2-2' }})
+          </option>
+        </select>
+        <p *ngIf="productosDisponibles.length === 0" class="text-sm text-gray-500 mt-1">Cargando productos...</p>
+      </div>
+
+      <!-- Campo Total (Calculado automáticamente) -->
+      <div>
+        <label for="total" class="block text-gray-700 text-sm font-bold mb-2">Total del Pedido:</label>
+        <input type="number" id="total" name="total" [(ngModel)]="pedidoForm.total" readonly
+               class="shadow-sm appearance-none border rounded w-full py-2 px-3 bg-gray-200 text-gray-700 leading-tight focus:outline-none"
+               placeholder="Calculado automáticamente">
+      </div>
+
+      <!-- Botones de acción del formulario -->
+      <div class="flex items-center justify-center space-x-4 mt-6">
+        <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-105">
+          {{ pedidoForm.id ? 'Actualizar Pedido' : 'Guardar Pedido' }}
+        </button>
+        <button type="button" (click)="resetFormulario()"
+                class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out transform hover:scale-105">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabla de Pedidos -->
+  <div *ngIf="pedidos.length > 0" class="overflow-x-auto bg-gray-50 rounded-lg shadow-md">
+    <table class="min-w-full leading-normal">
+      <thead>
+        <tr>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider rounded-tl-lg">
+            ID
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Fecha
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Estado
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Cliente
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Productos
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Total
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider rounded-tr-lg">
+            Acciones
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pedido of pedidos" class="hover:bg-gray-100 transition duration-150 ease-in-out">
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">{{ pedido.id }}</p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">{{ pedido.fechaPedido | date:'short' }}</p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">{{ pedido.estado }}</p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">{{ pedido.cliente?.nombre }} {{ pedido.cliente?.apellido }}</p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-pre-wrap">{{ getProductosNombres(pedido.productos) }}</p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">${{ pedido.total | number:'1.2-2' }}</p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+            <button (click)="seleccionarPedidoParaEditar(pedido)"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg mr-2 transition duration-300 ease-in-out transform hover:scale-105">
+              Editar
+            </button>
+            <button (click)="eliminarPedido(pedido.id)"
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
