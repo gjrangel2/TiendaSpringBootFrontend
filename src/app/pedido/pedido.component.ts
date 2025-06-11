@@ -27,6 +27,11 @@ export class PedidoComponent implements OnInit {
   mensajeError: string | null = null;
   selectedProductsForForm: number[] = []; // IDs de productos seleccionados para el formulario (para el multi-select)
 
+  // Propiedades para la funcionalidad de reporte PDF
+  reportEmail: string = 'fotosrangel22@gmail.com'; // Email por defecto
+  reportMessage: string | null = null;
+  reportError: boolean = false;
+
 
   constructor(
     private pedidoService: PedidoService,
@@ -185,4 +190,41 @@ export class PedidoComponent implements OnInit {
     if (!productos || productos.length === 0) return 'Ninguno';
     return productos.map(p => p.nombre).join(', ');
   }
+
+
+  // --- Nueva función para generar y enviar el reporte PDF ---
+  generarYEnviarReporte(): void {
+    this.reportMessage = null; // Limpiar mensajes anteriores
+    this.reportError = false;
+
+    if (!this.reportEmail || !this.isValidEmail(this.reportEmail)) {
+      this.reportMessage = 'Por favor, ingrese un correo electrónico válido para enviar el reporte.';
+      this.reportError = true;
+      return;
+    }
+
+    console.log('Intentando generar y enviar reporte a:', this.reportEmail);
+    this.reportMessage = 'Generando y enviando reporte... Esto puede tardar unos segundos.';
+    this.reportError = false;
+
+    this.pedidoService.generateAndSendReport(this.reportEmail).subscribe({
+      next: (response) => {
+        this.reportMessage = response; // El backend devuelve un mensaje de éxito
+        this.reportError = false;
+        console.log('Reporte enviado con éxito:', response);
+      },
+      error: (err) => {
+        this.reportMessage = 'Error al enviar el reporte: ' + (err.message || 'Error desconocido');
+        this.reportError = true;
+        console.error('Error al enviar reporte:', err);
+      }
+    });
+  }
+
+  // Helper para validar el formato del correo electrónico
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
 }

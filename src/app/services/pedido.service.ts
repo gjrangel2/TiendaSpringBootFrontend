@@ -77,6 +77,18 @@ export class PedidoService {
   deletePedido(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       catchError(this.handleError)
+    );  
+  }
+
+  /**
+   * Envía una solicitud al backend para generar y enviar el reporte PDF de pedidos.
+   * @param email El correo electrónico al que se enviará el reporte.
+   * @returns Un Observable con la respuesta del backend.
+   */
+  generateAndSendReport(email: string): Observable<string> {
+    // El backend espera un String en el cuerpo, no un objeto JSON { email: "fotosrangel22@gmail.com" }
+    return this.http.post(`${this.apiUrl}/report/send`, JSON.stringify(email), { responseType: 'text' }).pipe(
+      catchError(this.handleError)
     );
   }
 
