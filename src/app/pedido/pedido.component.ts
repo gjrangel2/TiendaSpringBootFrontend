@@ -221,6 +221,34 @@ export class PedidoComponent implements OnInit {
     });
   }
 
+  generarYEnviarClientesYProductosReport(): void {
+    this.reportMessage = null; // Limpiar mensajes anteriores
+    this.reportError = false;
+  
+    if (!this.reportEmail || !this.isValidEmail(this.reportEmail)) {
+      this.reportMessage = 'Por favor, ingrese un correo electrónico válido para enviar el reporte.';
+      this.reportError = true;
+      return;
+    }
+  
+    console.log('Intentando generar y enviar reporte a:', this.reportEmail);
+    this.reportMessage = 'Generando y enviando reporte... Esto puede tardar unos segundos.';
+    this.reportError = false;
+  
+    this.pedidoService.generateAndSendClientesYProductosReport(this.reportEmail).subscribe({
+      next: (response) => {
+        this.reportMessage = response; // El backend devuelve un mensaje de éxito
+        this.reportError = false;
+        console.log('Reporte enviado con éxito:', response);
+      },
+      error: (err) => {
+        this.reportMessage = 'Error al enviar el reporte: ' + (err.message || 'Error desconocido');
+        this.reportError = true;
+        console.error('Error al enviar reporte:', err);
+      }
+    });
+  }
+
   // Helper para validar el formato del correo electrónico
   isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

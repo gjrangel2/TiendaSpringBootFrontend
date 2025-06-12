@@ -94,6 +94,14 @@ export class PedidoService {
     );
   }
 
+
+  generateAndSendClientesYProductosReport(email: string): Observable<string> {
+    const payload = { email: email};
+    return this.http.post(`${this.apiUrl}/clientes-productos-pdf`, payload, { responseType: 'text' }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   /**
    * Maneja los errores de las peticiones HTTP.
    * @param error El objeto de error HTTP.
