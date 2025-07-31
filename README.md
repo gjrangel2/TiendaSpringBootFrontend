@@ -1,8 +1,6 @@
-# -----------------------------
 # Tienda Spring Boot – Frontend
-# -----------------------------
 
-Este proyecto es el **frontend de una tienda virtual**, desarrollado en **Angular**, que consume una API REST construida en Spring Boot, el backend está en el repositorio 🔗 Enlace al backend: https://github.com/gjrangel2/TiendaSpringBoot. Permite gestionar clientes, productos y pedidos, así como generar reportes para entregar via email usando Spring Boot Mail.
+Este proyecto es el **frontend de una tienda virtual**, desarrollado en **Angular**, que consume una API REST construida en Spring Boot. Permite gestionar clientes, productos y pedidos, así como generar reportes para entregar via email usando Spring Boot Mail.
 
 ## 🚀 Despliegue
 
@@ -10,20 +8,35 @@ El frontend fue desplegado en **Render.com** usando un archivo `Dockerfile` pers
 
 🔗 [URL en producción del frontend]([https://render.com](https://tiendaspringbootfrontend.onrender.com)) 
 
+![render frontend](https://github.com/user-attachments/assets/108c31de-17cc-4eeb-93bb-94e176001c97)
 
 ## 📸 Capturas de pantalla
 
+### Gestion de Clientes
 ![clientes-frontend](https://github.com/user-attachments/assets/8979e93e-54e8-4b64-b210-3781fea5332d)
+--------------------------------------------------
+
+### Gestion de Productos
 ![productos-frontend](https://github.com/user-attachments/assets/5b6342d6-6c56-44a4-92de-2724779ea9f2)
+-------------------------------------------------
+
+### Gestion de Pedidos
 ![pedidos-frontend](https://github.com/user-attachments/assets/46309270-ec30-469a-ad6e-f1c7a947c754)
+
+Dentro de las funcionalidades esta el envío de reportes de venta y de pedidos totales via email, utilizando Spring Boot Mail
+![reporteemail-frontend](https://github.com/user-attachments/assets/82318ed0-c573-48b9-a6a4-8dac52ed4448)
+
+Donde se recibe un archivo PDF con las siguientes caracteristicas
+![reportepedidos](https://github.com/user-attachments/assets/4650b8da-b214-451c-9e3a-56405f82413b)
+
+-------------------------------------------------
 
 ## ⚙️ Tecnologías utilizadas
 
 - Angular
 - TypeScript
 - HTML5 y CSS3
-- Servicios HTTP con RxJS
-- Bootstrap (si aplica)
+- Servicios HTTP
 - Docker
 - Render.com
 
@@ -76,23 +89,6 @@ ng serve --open
 
 Abre en: `http://localhost:4200`
 
-## 🐳 Docker
-
-### 📄 Dockerfile
-
-```dockerfile
-# Etapa 1: build
-FROM node:20 AS build
-WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build --prod
-
-# Etapa 2: nginx
-FROM nginx:alpine
-COPY --from=build /app/dist/tu-nombre-app /usr/share/nginx/html
-```
-
 ### Ejecutar en local:
 
 ```bash
@@ -108,9 +104,5 @@ Repositorio del backend desarrollado en Spring Boot:
 ## ✉️ Contacto
 
 Desarrollado por **Geyson Rangel**
-📧 [TuCorreo@example.com]
+📧 [ingerangel22@gmail.com]
 
-## 📃 Licencia
-
-Este proyecto está bajo la licencia MIT. Puedes usarlo, modificarlo y compartirlo libremente.
-he [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
