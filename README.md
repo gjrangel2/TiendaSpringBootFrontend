@@ -13,14 +13,9 @@ El frontend fue desplegado en **Render.com** usando un archivo `Dockerfile` pers
 
 ## 📸 Capturas de pantalla
 
-Sube tus capturas de pantalla a una carpeta llamada `images/` y referencia así:
-
-```markdown
 ![clientes-frontend](https://github.com/user-attachments/assets/8979e93e-54e8-4b64-b210-3781fea5332d)
 ![productos-frontend](https://github.com/user-attachments/assets/5b6342d6-6c56-44a4-92de-2724779ea9f2)
 ![pedidos-frontend](https://github.com/user-attachments/assets/46309270-ec30-469a-ad6e-f1c7a947c754)
-
-```
 
 ## ⚙️ Tecnologías utilizadas
 
