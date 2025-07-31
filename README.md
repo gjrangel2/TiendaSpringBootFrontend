@@ -104,5 +104,5 @@ Repositorio del backend desarrollado en Spring Boot:
 ## ✉️ Contacto
 
 Desarrollado por **Geyson Rangel**
-📧 [ingerangel22@gmail.com]
+[LinkedIn](https://www.linkedin.com/in/geyson-jair-rangel-ortega-79a022233/)
 
