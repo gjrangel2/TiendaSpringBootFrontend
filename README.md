@@ -4,7 +4,7 @@ Este proyecto es el **frontend de una tienda virtual**, desarrollado en **Angula
 
 ## 🚀 Despliegue
 
-El frontend fue desplegado en **Render.com** usando un archivo `Dockerfile` personalizado, ya que el entorno no detectaba automáticamente el tipo de aplicación Angular.
+El frontend fue desplegado en **Render.com** haciendo un enlace con el presente repositorio presente en **GitHub**. La interfaz de Render permite visualizar los Logs conrrespondientes a peticiones, despliegue, errores en tiempo real.
 
 🔗 [URL en producción del frontend]([https://render.com](https://tiendaspringbootfrontend.onrender.com)) 
 
@@ -99,7 +99,7 @@ docker run -p 80:80 tienda-frontend
 ## 🔗 Backend asociado
 
 Repositorio del backend desarrollado en Spring Boot:
-👉 https://github.com/gjrangel2/TiendaSpringBoot
+👉[Repositorio del backend](https://github.com/gjrangel2/TiendaSpringBoot)
 
 ## ✉️ Contacto
 
