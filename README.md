@@ -1,27 +1,121 @@
-# TiendaApp
+# -----------------------------
+# Tienda Spring Boot – Frontend
+# -----------------------------
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+Este proyecto es el **frontend de una tienda virtual**, desarrollado en **Angular**, que consume una API REST construida en Spring Boot, el backend está en el repositorio 🔗 Enlace al backend: https://github.com/gjrangel2/TiendaSpringBoot. Permite gestionar clientes, productos y pedidos, así como generar reportes para entregar via email usando Spring Boot Mail.
 
-## Development server
+## 🚀 Despliegue
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+El frontend fue desplegado en **Render.com** usando un archivo `Dockerfile` personalizado, ya que el entorno no detectaba automáticamente el tipo de aplicación Angular.
 
-## Code scaffolding
+🔗 [URL en producción del frontend]([https://render.com](https://tiendaspringbootfrontend.onrender.com)) 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## 📸 Capturas de pantalla
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Sube tus capturas de pantalla a una carpeta llamada `images/` y referencia así:
 
-## Running unit tests
+```markdown
+![clientes-frontend](https://github.com/user-attachments/assets/8979e93e-54e8-4b64-b210-3781fea5332d)
+![productos-frontend](https://github.com/user-attachments/assets/5b6342d6-6c56-44a4-92de-2724779ea9f2)
+![pedidos-frontend](https://github.com/user-attachments/assets/46309270-ec30-469a-ad6e-f1c7a947c754)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
 
-## Running end-to-end tests
+## ⚙️ Tecnologías utilizadas
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Angular
+- TypeScript
+- HTML5 y CSS3
+- Servicios HTTP con RxJS
+- Bootstrap (si aplica)
+- Docker
+- Render.com
 
-## Further help
+## 📁 Estructura del proyecto
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+📦 src
+└── 📁 app
+    ├── 📁 cliente
+    │   ├── cliente.component.ts
+    │   ├── cliente.component.html
+    │   └── cliente.component.css
+    ├── 📁 pedido
+    │   └── ...
+    ├── 📁 producto
+    │   └── ...
+    ├── 📁 services
+    │   └── cliente.service.ts
+    ├── app.component.ts
+    ├── app.component.html
+    ├── app.component.css
+    ├── app-routing.module.ts
+    └── app.module.ts
+```
+
+## ✅ Funcionalidades
+
+- [x] Visualización y gestión de clientes
+- [x] Visualización y gestión de productos
+- [x] Visualización y gestión de pedidos
+- [x] Envío de reportes por correo electrónico
+- [x] Comunicación con backend por HTTP
+- [x] Diseño responsivo básico con CSS
+
+## 🧪 Cómo ejecutar localmente
+
+```bash
+# Clona el repositorio
+https://github.com/gjrangel2/TiendaSpringBootFrontend.git
+
+# Entra a la carpeta
+cd TiendaSpringBootFrontend
+
+# Instala dependencias
+npm install
+
+# Ejecuta la aplicación
+ng serve --open
+```
+
+Abre en: `http://localhost:4200`
+
+## 🐳 Docker
+
+### 📄 Dockerfile
+
+```dockerfile
+# Etapa 1: build
+FROM node:20 AS build
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build --prod
+
+# Etapa 2: nginx
+FROM nginx:alpine
+COPY --from=build /app/dist/tu-nombre-app /usr/share/nginx/html
+```
+
+### Ejecutar en local:
+
+```bash
+docker build -t tienda-frontend .
+docker run -p 80:80 tienda-frontend
+```
+
+## 🔗 Backend asociado
+
+Repositorio del backend desarrollado en Spring Boot:
+👉 https://github.com/gjrangel2/TiendaSpringBoot
+
+## ✉️ Contacto
+
+Desarrollado por **Geyson Rangel**
+📧 [TuCorreo@example.com]
+
+## 📃 Licencia
+
+Este proyecto está bajo la licencia MIT. Puedes usarlo, modificarlo y compartirlo libremente.
+he [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
