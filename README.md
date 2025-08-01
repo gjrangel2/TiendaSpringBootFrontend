@@ -101,6 +101,12 @@ docker run -p 80:80 tienda-frontend
 Repositorio del backend desarrollado en Spring Boot:
 👉[Repositorio del backend](https://github.com/gjrangel2/TiendaSpringBoot)
 
+----------------------------------------------------------------------------------------------
+
+**NOTA: en caso de que el link de despligue no funcione contactar a 3104441243, ya que al ser una capa gratuita de RENDER, en ocasiones se detiene y hay que reiniciar el deploy**
+
+----------------------------------------------------------------------------------------------
+
 ## ✉️ Contacto
 
 Desarrollado por **Geyson Rangel**
